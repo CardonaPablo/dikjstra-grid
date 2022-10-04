@@ -1,6 +1,10 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
+console.log("Aqui o qu pedo")
+
+const addon = require('./build/Release/addon');
+console.log(addon.hello());
 
 function createWindow () {
   // Create the browser window.
@@ -8,8 +12,10 @@ function createWindow () {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
+    preload: path.join(__dirname, 'preload.js'), 
+    nodeIntegration: true,
+    nodeIntegrationInWorker: true
+  }
   })
 
   // and load the index.html of the app.
