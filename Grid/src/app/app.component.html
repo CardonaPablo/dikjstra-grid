@@ -1,5 +1,23 @@
 <div class="container">
-  <mat-grid-list [cols]="dimension" rowHeight="1:1">
+  <div class="creator-container">
+    <mat-form-field appearance="standard">
+      <mat-label>Dimension</mat-label>
+      <input type="number" matInput [formControl]="dimensionCtrl" required>
+    </mat-form-field>
+    <button mat-flat-button [disabled]="dimensionCtrl.invalid" (click)="renderCells()" color="accent">Crear grilla</button>
+  </div>
+
+  <mat-grid-list *ngIf="appState != 'grid-generation'" [cols]="dimension" rowHeight="1:1">
     <mat-grid-tile (click)="onCellClick(cell)" [class]="cell.status" *ngFor="let cell of cells">{{ cell.id }}</mat-grid-tile>
   </mat-grid-list>
+  <!-- <mat-card> -->
+    <!-- <mat-card-content> -->
+<!-- <h3>Flat Buttons</h3> -->
+<div class="button-row" *ngIf="appState != 'grid-generation'">
+  <button mat-flat-button (click)="restartGrid()">Reiniciar</button>
+  <button [disabled]="!validGrid" mat-flat-button color="primary">Crear camino</button>
+</div>
+
+    <!-- </mat-card-content> -->
+  <!-- </mat-card -->
 </div>
