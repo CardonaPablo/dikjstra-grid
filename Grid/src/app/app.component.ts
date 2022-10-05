@@ -38,6 +38,8 @@ export class AppComponent {
       id: i+1,
       status: 'blank'
     }))
+    this.initialCellId = null
+    this.finalCellId = null
     this.appState = 'objective-selection'
   }
 
