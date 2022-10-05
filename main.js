@@ -1,10 +1,8 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const url = require("url");
 
-const addon = require('./build/Release/addon');
-console.log(addon.hello());
 
 function createWindow() {
     // Create the browser window.
@@ -27,7 +25,7 @@ function createWindow() {
     );
 
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
@@ -41,7 +39,16 @@ app.whenReady().then(() => {
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
+
+    
+    ipcMain.handle('dijkstra', handleFileOpen)
+
 })
+
+async function handleFileOpen() {
+    console.log("Handling djikstra")
+    return 'djiskstraa'
+}
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
