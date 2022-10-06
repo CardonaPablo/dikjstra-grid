@@ -12,7 +12,8 @@ function createWindow() {
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
-            nodeIntegrationInWorker: true
+            nodeIntegrationInWorker: true,
+            contextIsolation: false
         }
     })
 
@@ -23,6 +24,7 @@ function createWindow() {
             slashes: true,
         })
     );
+    // mainWindow.loadFile(path.join(__dirname, 'interface/index.html'))
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
@@ -41,13 +43,14 @@ app.whenReady().then(() => {
     })
 
     
-    ipcMain.handle('dijkstra', handleFileOpen)
+    ipcMain.handle('create-path', createPath)
 
 })
 
-async function handleFileOpen() {
+async function createPath() {
     console.log("Handling djikstra")
-    return 'djiskstraa'
+    const addon = require('./build/Release/addon')
+    return addon.hello()
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

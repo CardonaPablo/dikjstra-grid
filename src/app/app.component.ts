@@ -73,10 +73,8 @@ export class AppComponent {
 
   async createPath() {
     if(this.electronService.isElectronApp) {
-      console.log(this.electronService)
-      
-      let addonResponse: string = await this.electronService.ipcRenderer.invoke('dijkstra')
-      console.log(addonResponse)
+      let addonResponse: string = await this.electronService.ipcRenderer.invoke('create-path')
+      console.log("Response", addonResponse)
     }
   }
 
