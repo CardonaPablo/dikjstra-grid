@@ -42,15 +42,12 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 
-    
     ipcMain.handle('create-path', createPath)
-
 })
 
-async function createPath() {
-    console.log("Handling djikstra")
+async function createPath(cells) {
     const addon = require('./build/Release/addon')
-    return addon.hello()
+    return addon.createPath(cells)
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
