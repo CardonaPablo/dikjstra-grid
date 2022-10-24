@@ -45,9 +45,15 @@ app.whenReady().then(() => {
     ipcMain.handle('create-path', createPath)
 })
 
-async function createPath(cells) {
+async function createPath(event, variables) {
+    let {
+        initial, 
+        final,
+        dimension,
+        barriers
+    } = variables;
     const addon = require('./build/Release/addon')
-    return addon.createPath(3, [5])
+    return addon.createPath(dimension, barriers, initial, final)
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

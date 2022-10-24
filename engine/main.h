@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include <utility>
 #include<bits/stdc++.h>
 
@@ -15,17 +16,25 @@ vector<int> dijkstra(Graph, int, int);
 void updateMinimumLength(Graph, vector<int>&, vector<int>, vector<int>&, int);
 vector<int> simplifyPath(vector<pair<int, int>>, int, int);
 pair<int,int> addPath(Graph, vector<int>, int);
-vector<int> createPath(int, int[]);
+string createPath(int, vector<int>, int, int);
 
 // vector<int> createPath(int dimension, int barriers_[], int initial, int final) {
-vector<int> createPath(int dimension, int barriers_[]) {
-    int n = sizeof(barriers_) / sizeof(barriers_[0]);
-    std::vector<int> barriers(barriers_, barriers_ + n);
+string createPath(int dimension, vector<int> barriers, int initial, int final) {
+
 	std::cout << "Barriers" << endl;
 	printVector(barriers);
+
 	Graph graph(dimension, barriers); 
-	graph.drawGraph();
-	return dijkstra(graph, 1, 9);
+	// graph.drawGraph();
+
+	vector<int> result = dijkstra(graph, initial, final);
+	string path = "";
+	// Recorrer vector y concatenar
+	for (auto i = result.begin(); i != result.end(); ++i) 
+		path += to_string(*i) + "," ;
+
+	path.pop_back();
+	return path;
 }
 
 vector<int> dijkstra(Graph graph, int initial, int final) {
@@ -38,7 +47,7 @@ vector<int> dijkstra(Graph graph, int initial, int final) {
 	int currentNode = initial;
 
 	// visited.reserve(dim);
-	potentialJumps.reserve(dim); 
+	// potentialJumps.reserve(dim); 
 	// paths.reserve(dim*2);
 
 	minLengths.at(initial -1) = 0;

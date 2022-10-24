@@ -18,7 +18,7 @@ export class AppComponent {
   @ViewChild(MatGridList) grid: MatGridList | undefined
 
   dimension = 0
-  cells: any[] = []
+  cells: Cell[] = []
 
   initialCellId: number | null = null
   finalCellId: number | null = null
@@ -74,9 +74,15 @@ export class AppComponent {
   async createPath() {
     if(!this.electronService.isElectronApp) return
 
-    // Send correct params
-    let addonResponse: string = await this.electronService.ipcRenderer.invoke('create-path', this.cells)
-    console.log("Response", addonResponse)
+    // Send initial, final, dimension and blockages
+    let barriers = this.cells.filter(c => c.status == 'blocked').map(c => c.id)
+    let args = {
+      initial: this.initialCellId,
+      final: this.finalCellId, 
+      dimension: this.dimension,
+      barriers
+    }
+    let addonResponse: string = await this.electronService.ipcRenderer.invoke('create-path', args)
 
     let path: number[] = addonResponse.split(",").map(s => +s) 
     let initialIndex = path.indexOf(this.initialCellId as number)
@@ -95,7 +101,7 @@ export class AppComponent {
       if(index > -1) 
         this.cells[index].status = 'visited'
       await new Promise((resolve, reject )=> {
-        setTimeout(() => resolve(1), 250)
+        setTimeout(() => resolve(1), 50)
       })
     }
   }
