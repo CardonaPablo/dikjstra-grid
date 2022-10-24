@@ -47,6 +47,7 @@ CXXFLAGS.target ?= $(CPPFLAGS) $(CXXFLAGS)
 LINK.target ?= $(LINK)
 LDFLAGS.target ?= $(LDFLAGS)
 AR.target ?= $(AR)
+PLI.target ?= pli
 
 # C++ apps need to be linked with g++.
 LINK ?= $(CXX.target)
@@ -60,6 +61,7 @@ CXXFLAGS.host ?= $(CPPFLAGS_host) $(CXXFLAGS_host)
 LINK.host ?= $(CXX.host)
 LDFLAGS.host ?= $(LDFLAGS_host)
 AR.host ?= ar
+PLI.host ?= pli
 
 # Define a dir function that can handle spaces.
 # http://www.gnu.org/software/make/manual/make.html#Syntax-of-Functions
@@ -336,8 +338,8 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
 endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
-cmd_regen_makefile = cd $(srcdir); /home/cardonapablo/.nvm/versions/node/v14.15.3/lib/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/cardonapablo/.cache/node-gyp/14.15.3" "-Dnode_gyp_dir=/home/cardonapablo/.nvm/versions/node/v14.15.3/lib/node_modules/node-gyp" "-Dnode_lib_file=/home/cardonapablo/.cache/node-gyp/14.15.3/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" "-I/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid/build/config.gypi" -I/home/cardonapablo/.nvm/versions/node/v14.15.3/lib/node_modules/node-gyp/addon.gypi -I/home/cardonapablo/.cache/node-gyp/14.15.3/include/node/common.gypi "--toplevel-dir=." binding.gyp
-Makefile: $(srcdir)/binding.gyp $(srcdir)/../../../../../.nvm/versions/node/v14.15.3/lib/node_modules/node-gyp/addon.gypi $(srcdir)/../../../../../.cache/node-gyp/14.15.3/include/node/common.gypi $(srcdir)/build/config.gypi
+cmd_regen_makefile = cd $(srcdir); "/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid/node_modules/node-gyp/gyp/gyp_main.py" -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/cardonapablo/.electron-gyp/21.1.0" "-Dnode_gyp_dir=/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid/node_modules/node-gyp" "-Dnode_lib_file=/home/cardonapablo/.electron-gyp/21.1.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" "-I/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid/build/config.gypi" "-I/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid/node_modules/node-gyp/addon.gypi" -I/home/cardonapablo/.electron-gyp/21.1.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
+Makefile: $(srcdir)/binding.gyp $(srcdir)/build/config.gypi $(srcdir)/node_modules/node-gyp/addon.gypi $(srcdir)/../../../../../.electron-gyp/21.1.0/include/node/common.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included

@@ -40,7 +40,7 @@ void createPath(const FunctionCallbackInfo<Value>& args) {
 
   // Set the return value (using the passed in
   // FunctionCallbackInfo<Value>&)
-  // args.GetReturnValue().Set(String::NewFromUtf8("1,2,3,4,5,6"));
+  args.GetReturnValue().Set(String::NewFromUtf8(isolate, "1,2,5,6,9").ToLocalChecked());
 }
 
 void Init(Local<Object> exports) {

@@ -72,11 +72,32 @@ export class AppComponent {
   }
 
   async createPath() {
-    if(this.electronService.isElectronApp) {
-      let addonResponse: string = await this.electronService.ipcRenderer.invoke('create-path', this.cells)
-      console.log("Response", addonResponse)
+    if(!this.electronService.isElectronApp) return
+    let addonResponse: string = await this.electronService.ipcRenderer.invoke('create-path', this.cells)
+    console.log("Response", addonResponse)
+
+    let path: number[] = addonResponse.split(",").map(s => +s) 
+    let initialIndex = path.indexOf(this.initialCellId as number)
+    if(initialIndex > -1)
+      path.splice(initialIndex, 1)
+    let finalIndex = path.indexOf(this.finalCellId as number)
+    if(finalIndex > -1)
+      path.splice(finalIndex, 1)
+    this.drawResult(path)
+  }
+
+  async drawResult(path: number[]) {
+    for (let j = 0; j < path.length; j++) {
+      const node = path[j];
+      let index = this.cells.findIndex((cell) => node == cell.id)
+      if(index > -1) 
+        this.cells[index].status = 'visited'
+      await new Promise((resolve, reject )=> {
+        setTimeout(() => resolve(1), 250)
+      })
     }
   }
+
 
   get validGrid() { return this.initialCellId !== null && this.finalCellId !== null && this.dimensionCtrl.valid }
 }
