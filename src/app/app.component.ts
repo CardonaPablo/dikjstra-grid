@@ -74,6 +74,11 @@ export class AppComponent {
   async createPath() {
     if(!this.electronService.isElectronApp) return
 
+    // Clear last path
+    this.cells = this.cells.map(c => {
+      c.status = c.status == 'visited' ? 'blank' : c.status
+      return c
+    })
     // Send initial, final, dimension and blockages
     let barriers = this.cells.filter(c => c.status == 'blocked').map(c => c.id)
     let args = {

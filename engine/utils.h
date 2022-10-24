@@ -30,7 +30,8 @@ int findIndex(vector<int> v, int target) {
 }
 
 int findIndexOfLowest(vector<int> minLengths, vector<int> potentialJumps, int final) {
-	int minIndex = minLengths.size()-1;
+	int minValue = minLengths.size() * minLengths.size();
+	int minIndex = NULL;
 	// If final is in direct jumps, check first to see
 	// int finalIndex = findIndex(potentialJumps, final);
 	if(existsInVector(potentialJumps, final))
@@ -39,11 +40,12 @@ int findIndexOfLowest(vector<int> minLengths, vector<int> potentialJumps, int fi
 	for (int j = 0; j < minLengths.size(); j++) {
 		bool exists = existsInVector(potentialJumps, j+1);
 		if(!exists) continue;
-		if(minLengths.at(j) < minLengths.at(minIndex)) {
+		if(minLengths.at(j) < minValue) {
+			minValue = minLengths.at(j);
 			minIndex = j;
 		}
 	}
-	if(minIndex == minLengths.size() -1)
+	if(minIndex == NULL && minValue == (minLengths.size() * minLengths.size()))
 		return -1;
 	return minIndex;
 }

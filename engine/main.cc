@@ -19,7 +19,6 @@ Value exportFunction(const CallbackInfo& info) {
 	{
 		Value v = barriers_[i];
 		int val = (int)v.As<Number>();
-		cout << "Inserting value" << val <<endl;
 		barriers[i] = val;
 	}
 

@@ -29,7 +29,6 @@ string createPath(int dimension, vector<int> barriers, int initial, int final) {
 
 	vector<int> result = dijkstra(graph, initial, final);
 	string path = "";
-	// Recorrer vector y concatenar
 	for (auto i = result.begin(); i != result.end(); ++i) 
 		path += to_string(*i) + "," ;
 
@@ -46,10 +45,6 @@ vector<int> dijkstra(Graph graph, int initial, int final) {
 	vector<int> minLengths(dim, dim*dim);
 	int currentNode = initial;
 
-	// visited.reserve(dim);
-	// potentialJumps.reserve(dim); 
-	// paths.reserve(dim*2);
-
 	minLengths.at(initial -1) = 0;
 	while(currentNode != final) {
 		updateMinimumLength(graph, minLengths, visited, potentialJumps, currentNode);
@@ -59,14 +54,27 @@ vector<int> dijkstra(Graph graph, int initial, int final) {
 		}
 
 		int index = findIndexOfLowest(minLengths, potentialJumps, final);
+		if(index == -1) {
+			cout << "Did not find index of lowest" << endl;
+			break;
+		}
 		currentNode = index + 1;
 
 		pair<int, int> path = addPath(graph, visited, currentNode);
 		paths.push_back(path);
 		visited.push_back(currentNode);
 
-		// Remove the visited node from the potential jumps	
-		remove(potentialJumps.begin(), potentialJumps.end(), currentNode);
+		// Create another vector of size -1
+		vector<int> filteredArray;
+		// Copy all elements except current node
+		for(auto i = potentialJumps.begin(); i != potentialJumps.end(); ++i)
+			if(*i != currentNode)
+				filteredArray.push_back(*i);
+		// Copy new vector to old one
+		potentialJumps.clear();
+		potentialJumps.assign(filteredArray.begin(), filteredArray.end()); 
+
+		// remove(potentialJumps.begin(), potentialJumps.end(), currentNode);
 	}
 	return simplifyPath(paths, initial, final);
 }
@@ -88,6 +96,7 @@ void updateMinimumLength(
 	int node 
 ) {
 	int currentNodeLength = minLengths.at(node - 1); 
+	cout << "Current node: \t\t\t " << node << endl;
 	vector<int> directJumps = graph.getDirectJumps(node);
 	for (auto i = directJumps.begin(); i != directJumps.end(); ++i) {
 		if(existsInVector(visited, *i)) continue;
@@ -128,9 +137,6 @@ vector<int> simplifyPath(vector<pair<int, int>> paths, int initial, int final) {
 	finalPath.push_back(currentPath.first);
 
 	reverse(finalPath.begin(), finalPath.end());
-
-	cout << "Final path:" << endl;
-	printVector(finalPath);
 	return finalPath;
 }
 
