@@ -73,6 +73,8 @@ export class AppComponent {
 
   async createPath() {
     if(!this.electronService.isElectronApp) return
+
+    // Send correct params
     let addonResponse: string = await this.electronService.ipcRenderer.invoke('create-path', this.cells)
     console.log("Response", addonResponse)
 

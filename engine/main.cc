@@ -1,52 +1,82 @@
-#include <node.h>
+#include "napi.h"
+#include "main.h"
 
-namespace AddOn {
+// namespace AddOn
+// {
 
-using v8::Exception;
-using v8::FunctionCallbackInfo;
-using v8::Isolate;
-using v8::Local;
-using v8::Number;
-using v8::Object;
-using v8::String;
-using v8::Value;
 
-// This is the implementation of the "add" method
-// Input arguments are passed using the
-// const FunctionCallbackInfo<Value>& args struct
-void createPath(const FunctionCallbackInfo<Value>& args) {
+// 	// This is the implementation of the "add" method
+// 	// Input arguments are passed using the
+// 	// const FunctionCallbackInfo<Value>& args struct
+// 	void exportFunction(const FunctionCallbackInfo<Value> &args)
+// 	{
 
-  Isolate* isolate = args.GetIsolate();
-  // Check the number of arguments passed.
-  if (args.Length() > 1) {
-    // Throw an Error that is passed back to JavaScript
-    isolate->ThrowException(Exception::TypeError(
-        String::NewFromUtf8(isolate, "Wrong number of arguments").ToLocalChecked()));
-    return;
+// 		Isolate *isolate = args.GetIsolate();
+// 		// Check the number of arguments passed.
+// 		if (args.Length() != 3)
+// 		{
+// 			// Throw an Error that is passed back to JavaScript
+// 			isolate->ThrowException(Exception::TypeError(
+// 				String::NewFromUtf8(isolate, "Wrong number of arguments").ToLocalChecked()));
+// 			return;
+// 		}
+
+// 		Local<Array> barriers_ = Local<Array>::Cast(args[0]);
+// 		int length = barriers_->Length();
+
+// 		Local<Object> barriers__ = Local<Object>::Cast(barriers_);
+// 		int barriers[length];
+// 		for (int i = 0; i < length; i++)
+// 		{
+// 			Local<Value> element = Local<Object>::Get::barriers__(i);
+// 			barriers[i] = element.ToInteger()->Value();
+// 		}
+
+// 		int dimension = args[0].As<Number>()->Value();
+// 		createPath(dimension, barriers);
+
+// 		args.GetReturnValue().Set(String::NewFromUtf8(isolate, "1,2,5,6,9").ToLocalChecked());
+// 	}
+
+// 	void Init(Local<Object> exports)
+// 	{
+// 		NODE_SET_METHOD(exports, "createPath", exportFunction);
+// 	}
+
+// 	NODE_MODULE(NODE_GYP_MODULE_NAME, Init)
+
+// }
+
+using namespace Napi;
+
+Value exportFunction(const CallbackInfo& args) {
+
+  Env env = args.Env();
+  if (args.Length() < 2) {
+    TypeError::New(env, "Wrong number of arguments")
+        .ThrowAsJavaScriptException();
+    return env.Null();
   }
 
-  // // Check the argument types
-  // if (!args[0]->IsNumber() || !args[1]->IsNumber()) {
-  //   isolate->ThrowException(Exception::TypeError(
-  //       String::NewFromUtf8(isolate,
-  //                           "Wrong arguments").ToLocalChecked()));
-  //   return;
-  // }
+	Array barriers_ = args[1].As<Array>();
+	int length = barriers_.Length();
+	int barriers[length];
+	for (int i = 0; i < length; i++)
+	{
+		Value v = barriers_[i];
+		barriers[i] = (int)v.As<Number>();
+	}
 
-  // // Perform the operation
-  // double value =
-  //     args[0].As<Number>()->Value() + args[1].As<Number>()->Value();
-  // Local<Number> num = Number::New(isolate, value);
+	int dimension = args[0].As<Number>();
+	createPath(dimension, barriers);
 
-  // Set the return value (using the passed in
-  // FunctionCallbackInfo<Value>&)
-  args.GetReturnValue().Set(String::NewFromUtf8(isolate, "1,2,5,6,9").ToLocalChecked());
+	// String result = String::NewFromUtf8(isolate, "1,2,5,6,9");
+	return String::New(env, "1,2,5,6,9");
 }
 
-void Init(Local<Object> exports) {
-  NODE_SET_METHOD(exports, "createPath", createPath);
+Object Init(Env env, Object exports) {
+  exports.Set(String::New(env, "createPath"), Function::New(env, exportFunction));
+  return exports;
 }
 
-NODE_MODULE(NODE_GYP_MODULE_NAME, Init)
-
-}
+NODE_API_MODULE(addon, Init)

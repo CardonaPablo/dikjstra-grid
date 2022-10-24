@@ -339,7 +339,7 @@ endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
 cmd_regen_makefile = cd $(srcdir); "/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid/node_modules/node-gyp/gyp/gyp_main.py" -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/cardonapablo/.electron-gyp/21.1.0" "-Dnode_gyp_dir=/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid/node_modules/node-gyp" "-Dnode_lib_file=/home/cardonapablo/.electron-gyp/21.1.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" "-I/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid/build/config.gypi" "-I/home/cardonapablo/Documentos/CETI/4TO/Estructura de Datos/dikjstra-grid/node_modules/node-gyp/addon.gypi" -I/home/cardonapablo/.electron-gyp/21.1.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
-Makefile: $(srcdir)/binding.gyp $(srcdir)/build/config.gypi $(srcdir)/node_modules/node-gyp/addon.gypi $(srcdir)/../../../../../.electron-gyp/21.1.0/include/node/common.gypi
+Makefile: $(srcdir)/build/config.gypi $(srcdir)/node_modules/node-gyp/addon.gypi $(srcdir)/../../../../../.electron-gyp/21.1.0/include/node/common.gypi $(srcdir)/binding.gyp
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included

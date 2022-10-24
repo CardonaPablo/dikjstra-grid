@@ -47,7 +47,7 @@ app.whenReady().then(() => {
 
 async function createPath(cells) {
     const addon = require('./build/Release/addon')
-    return addon.createPath(cells)
+    return addon.createPath(3, [5])
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

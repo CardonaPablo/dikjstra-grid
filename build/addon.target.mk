@@ -24,6 +24,7 @@ DEFS_Debug := \
 	'-DOPENSSL_NO_PINSHARED' \
 	'-DOPENSSL_THREADS' \
 	'-DOPENSSL_NO_ASM' \
+	'-DNAPI_DISABLE_CPP_EXCEPTIONS' \
 	'-DBUILDING_NODE_EXTENSION' \
 	'-DDEBUG' \
 	'-D_DEBUG' \
@@ -56,7 +57,8 @@ INCS_Debug := \
 	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/openssl/openssl/include \
 	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/uv/include \
 	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/zlib \
-	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/v8/include
+	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/v8/include \
+	-I$(srcdir)/node_modules/node-addon-api
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=addon' \
@@ -80,6 +82,7 @@ DEFS_Release := \
 	'-DOPENSSL_NO_PINSHARED' \
 	'-DOPENSSL_THREADS' \
 	'-DOPENSSL_NO_ASM' \
+	'-DNAPI_DISABLE_CPP_EXCEPTIONS' \
 	'-DBUILDING_NODE_EXTENSION'
 
 # Flags passed to all source files.
@@ -109,7 +112,8 @@ INCS_Release := \
 	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/openssl/openssl/include \
 	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/uv/include \
 	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/zlib \
-	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/v8/include
+	-I/home/cardonapablo/.electron-gyp/21.1.0/deps/v8/include \
+	-I$(srcdir)/node_modules/node-addon-api
 
 OBJS := \
 	$(obj).target/$(TARGET)/engine/main.o
